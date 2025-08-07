@@ -38,7 +38,7 @@ OAuth2 scopes designed for agent-to-agent communication
 The ARC Protocol is defined in the [Official Specification](https://github.com/arcprotocol/arc-protocol/blob/main/ARC-Protocol-Official-Specification.md), which details:
 
 - **Message Structure**: Request and response formats
-- **Method Definitions**: 10 standard methods across task, stream, and notification categories
+- **Method Definitions**: 9 standard methods across task, chat, and notification categories
 - **Data Types**: Message, Part, Artifact, and other core types
 - **Authentication**: OAuth2 scope patterns for agent permissions
 - **Error Handling**: Comprehensive error code system
@@ -65,21 +65,22 @@ task = await client.task.create(
 )
 
 # Check progress
-status = await client.task.get(task_id=task.taskId)
+status = await client.task.info(task_id=task.taskId)
 ```
 
-### **Stream Methods (Real-time)**
+### **Chat Methods (Real-time)**
 For interactive conversations and real-time data:
 
 ```python
 # Start a real-time conversation
-stream = await client.stream.start(
+chat = await client.chat.start(
     target_agent="support-agent-01",
-    initial_message={"role": "user", "parts": [{"type": "TextPart", "content": "Help with my account"}]}
+    initial_message={"role": "user", "parts": [{"type": "TextPart", "content": "Help with my account"}]},
+    stream=True
 )
 
 # Continue conversation
-await client.stream.message(stream_id=stream.streamId, message=follow_up_message)
+await client.chat.message(chat_id=chat.chatId, message=follow_up_message, stream=True)
 ```
 
 ### **Multi-Agent Workflows**
@@ -117,13 +118,14 @@ chart_task = await client.task.create(
 
 ## 📈 Comparison to Existing Protocols
 
-| Feature | ARC | JSON-RPC 2.0 | gRPC | REST |
-|---------|-----|---------------|------|------|
-| **Agent Routing** | ✅ Built-in | ❌ Manual | ❌ Manual | ❌ Manual |
-| **Workflow Tracing** | ✅ Native | ❌ Custom | ⚠️ External | ❌ Custom |
-| **Multi-Agent Ready** | ✅ First-class | ❌ DIY | ❌ DIY | ❌ DIY |
-| **Load Balancing** | ✅ Protocol-level | ❌ External | ❌ External | ❌ External |
-| **Learning Curve** | ✅ Simple | ✅ Simple | ❌ Complex | ✅ Simple |
+| Feature | ARC | ACP (Agent Communication Protocol) | A2A (Agent-to-Agent) | JSON-RPC 2.0 | gRPC | REST |
+|---------|-----|-----------------------------------|----------------------|---------------|------|------|
+| **Agent Routing** | ✅ Built-in | ✅ REST-based | ✅ Built-in | ❌ Manual | ❌ Manual | ❌ Manual |
+| **Workflow Tracing** | ✅ Native | ✅ Built-in | ✅ Task tracking | ❌ Custom | ⚠️ External | ❌ Custom |
+| **Multi-Agent Ready** | ✅ First-class | ✅ First-class | ✅ First-class | ❌ DIY | ❌ DIY | ❌ DIY |
+| **Load Balancing** | ✅ Protocol-level | ⚠️ Server-based | ✅ Agent Cards | ❌ External | ❌ External | ❌ External |
+| **Learning Curve** | ✅ Simple | ✅ Simple | ✅ Moderate | ✅ Simple | ❌ Complex | ✅ Simple |
+| **Governance** | Open | Linux Foundation | Google-led | Open | Google-led | Open |
 
 ## 🤝 Contributing
 
