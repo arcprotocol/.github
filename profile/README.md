@@ -3,8 +3,8 @@
 # <img src="../assets/arc_banner.jpeg" alt="ARC Protocol" width="100%">
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GitHub stars](https://img.shields.io/github/stars/arcprotocol/arc-protocol.svg?style=social&label=Star)](https://github.com/arcprotocol/arc-protocol)
-[![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord)](https://discord.gg/arcprotocol)
+[![GitHub stars](https://img.shields.io/github/stars/arcprotocol/arcprotocol.svg?style=social&label=Star)](https://github.com/arcprotocol/arcprotocol)
+[![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord)](https://discord.gg/XYmp22xX5m)
 [![Twitter Follow](https://img.shields.io/twitter/follow/arcprotocol?style=social)](https://twitter.com/arcprotocol)
 
 ## 🚀 The First Multi-Agent Communication Protocol
