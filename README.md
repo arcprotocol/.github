@@ -1,4 +1,4 @@
-# Agent Remote Communication (ARC) Protocol
+# ARC Ecosystem - Agent Communication Infrastructure
 
 # <img src="assets/arc_banner.jpeg" alt="ARC Protocol" width="100%">
 
@@ -7,55 +7,26 @@
 [![Discord](https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord)](https://discord.gg/XYmp22xX5m)
 [![Twitter Follow](https://img.shields.io/twitter/follow/arcprotocol?style=social)](https://twitter.com/arcprotocol)
 
-## 🚀 The First Multi-Agent Communication Protocol
+## The Agent Communication Stack
 
-**ARC (Agent Remote Communication)** is the first RPC protocol that solves multi-agent deployment complexity with built-in agent routing, load balancing, and workflow tracing. Deploy hundreds of different agent types on a single endpoint with zero infrastructure overhead - no service discovery, no API gateways, no orchestration engines required.
+The ARC Ecosystem provides a complete infrastructure for agent-to-agent communication, discovery, and intelligent routing:
 
-> "ARC Protocol is to agent communication what HTTP was to the web - a simple, universal standard that unlocks an entire ecosystem." 
+- **ARC Protocol** - The communication layer for agent interactions
+- **ARC Ledger** - The discovery layer for agent capabilities
+- **ARC Compass** - The intelligent routing layer for finding the right agents
 
-## 🌟 Why ARC Protocol?
+## ARC Protocol
 
-### 🏗️ **Single Endpoint, Multiple Agents**
-Deploy 10s or 100s of agents behind `https://company.com/arc` - no need for separate endpoints per agent
+**ARC Protocol** is an RPC protocol that solves multi-agent deployment complexity with built-in agent routing, load balancing, and workflow tracing. Deploy hundreds of different agent types on a single endpoint with zero infrastructure overhead.
 
-### 🔄 **Built-in Agent Routing**
-Automatic routing via `requestAgent` and `targetAgent` fields - no need for custom routing logic
+### Key Features
 
-### 📊 **Load Balancing Ready**
-Route to `finance-agent-01`, `finance-agent-02`, `finance-agent-03` automatically
-
-### 🔍 **End-to-End Workflow Tracing**
-Track complex workflows across multiple agent interactions with `traceId`
-
-### 🔐 **Enterprise-Grade Security**
-OAuth2 scopes designed for agent-to-agent communication
-
-### 🧩 **Comprehensive Error Handling**
-500+ categorized error codes with detailed context for debugging and monitoring
-
-## 📚 Protocol Specification
-
-The ARC Protocol is defined in the [Official Specification](https://github.com/arcprotocol/arc-protocol/blob/main/ARC-Protocol-Official-Specification.md), which details:
-
-- **Message Structure**: Request and response formats
-- **Method Definitions**: 9 standard methods across task, chat, and notification categories
-- **Data Types**: Message, Part, Artifact, and other core types
-- **Authentication**: OAuth2 scope patterns for agent permissions
-- **Error Handling**: Comprehensive error code system
-
-## 🛠️ SDK Implementations
-
-ARC Protocol is available in multiple languages:
-
-- [**Python SDK**](https://github.com/arcprotocol/python-sdk) - `pip install arc-sdk`
-- [**JavaScript SDK**](https://github.com/arcprotocol/js-sdk) - `npm install @arcprotocol/sdk`
-- [**Go SDK**](https://github.com/arcprotocol/go-sdk) - `go get github.com/arcprotocol/go-sdk`
-- More languages coming soon!
-
-## 🎯 Key Features
-
-### **Task Methods (Asynchronous)**
-For long-running operations like document analysis, report generation:
+- **Single Endpoint, Multiple Agents**: Deploy 10s or 100s of agents behind `https://company.com/arc`
+- **Built-in Agent Routing**: Automatic routing via `requestAgent` and `targetAgent` fields
+- **Load Balancing Ready**: Route to `finance-agent-01`, `finance-agent-02`, `finance-agent-03` automatically
+- **End-to-End Workflow Tracing**: Track complex workflows across multiple agent interactions with `traceId`
+- **Enterprise-Grade Security**: OAuth2 scopes designed for agent-to-agent communication
+- **Comprehensive Error Handling**: 500+ categorized error codes with detailed context
 
 ```python
 # Create a new task
@@ -68,55 +39,94 @@ task = await client.task.create(
 status = await client.task.info(task_id=task.taskId)
 ```
 
-### **Chat Methods (Real-time)**
-For interactive conversations and real-time data:
+## ARC Ledger
 
-```python
-# Start a real-time conversation
-chat = await client.chat.start(
-    target_agent="support-agent-01",
-    initial_message={"role": "user", "parts": [{"type": "TextPart", "content": "Help with my account"}]},
-    stream=True
-)
+**ARC Ledger** is a centralized agent discovery registry that serves as the authoritative directory of all available agents, their capabilities, and connection information, enabling seamless agent-to-agent communication.
 
-# Continue conversation
-await client.chat.message(chat_id=chat.chatId, message=follow_up_message, stream=True)
+### Key Features
+
+- **Standardized Agent Cards**: Enforces a consistent schema for agent capabilities and metadata
+- **Powerful Search**: Find agents by capability, skill, provider, or other attributes
+- **Versioning Support**: Track agent versions and updates
+- **Authentication**: Secure agent registration and discovery
+- **Scalable Architecture**: Designed to handle millions of agent registrations
+
+```typescript
+// Find agents with specific capabilities
+const documentAgents = await ledger.findAgents({
+  capabilities: {
+    fileUpload: true
+  },
+  skills: ["Extract Text"],
+  limit: 5
+});
 ```
 
-### **Multi-Agent Workflows**
-Connect multiple agents with automatic tracing:
+## ARC Compass
 
-```python
-# Step 1: Document analysis
-doc_task = await client.task.create(
-    target_agent="document-analyzer-01",
-    initial_message={"role": "user", "parts": [{"type": "FilePart", "content": pdf_content}]},
-    trace_id="workflow_quarterly_report_789"
-)
+**ARC Compass** is an intelligent routing layer for agent ecosystems that directs queries to the most appropriate agents based on their capabilities, availability, and performance. It serves as the "search engine" for the agent web.
 
-# Step 2: Chart generation (same trace_id connects the workflow)
-chart_task = await client.task.create(
-    target_agent="chart-generator-01",
-    initial_message={"role": "agent", "parts": [{"type": "DataPart", "content": extracted_data}]},
-    trace_id="workflow_quarterly_report_789"  # Same trace_id!
-)
+### Key Features
+
+- **Intelligent Agent Selection**: Matches queries to the most appropriate agents
+- **Real-time Search**: Provides fast, real-time agent search results
+- **Agent Ranking**: Ranks agents by relevance to the specific query
+- **Agent-to-Agent Facilitation**: Enables direct communication between agents after discovery
+- **Continuous Learning**: Improves routing decisions based on feedback
+
+```typescript
+// Search for the best agents for a specific query
+const searchResult = await compass.search({
+  query: "Create a business plan for a sustainable fashion startup",
+  maxResults: 3
+});
+
+// Connect directly with the top matched agent using ARC Protocol
+const topAgent = searchResult.agents[0];
+const arcClient = new ARCClient({
+  endpoint: topAgent.url,
+  requestAgent: "my-agent-id",
+  targetAgent: topAgent.agentId
+});
 ```
 
-## 🏢 Enterprise Use Cases
+## How It All Works Together
 
-### **Financial Services**
+The ARC Ecosystem provides a complete solution for agent communication and discovery:
+
+1. **Agent Registration**: Agents register their capabilities with ARC Ledger
+2. **Agent Discovery**: Agents find other agents through ARC Compass
+3. **Agent Communication**: Agents communicate directly with each other using ARC Protocol
+
+This creates a powerful network of interconnected agents that can collaborate on complex tasks:
+
+```
+User → Agent A → ARC Compass → ARC Ledger → Results → Agent A → Direct Communication with Matched Agents → User
+```
+
+## SDK Implementations
+
+ARC Protocol is available in multiple languages:
+
+- [**Python SDK**](https://github.com/arcprotocol/python-sdk) - `pip install arc-sdk`
+- [**JavaScript SDK**](https://github.com/arcprotocol/js-sdk) - `npm install @arcprotocol/sdk`
+- [**Go SDK**](https://github.com/arcprotocol/go-sdk) - `go get github.com/arcprotocol/go-sdk`
+
+## Enterprise Use Cases
+
+### Financial Services
 - **Multi-agent credit analysis**: Document extraction → Financial analysis → Risk assessment → Report generation
 - **Real-time trading assistants**: Market data streams → Analysis → Recommendations
 
-### **Healthcare**
+### Healthcare
 - **Patient data processing**: Medical records → Diagnosis assistance → Treatment recommendations
 - **Medical imaging workflow**: Image processing → Analysis → Report generation
 
-### **Customer Support**
+### Customer Support
 - **Tiered support system**: Initial triage → Specialist routing → Resolution tracking
 - **Multi-channel support**: Email, chat, voice unified through single protocol
 
-## 📈 Comparison to Existing Protocols
+## Comparison to Existing Protocols
 
 | Feature | ARC | ACP (Agent Communication Protocol) | A2A (Agent-to-Agent) | JSON-RPC 2.0 | gRPC | REST |
 |---------|-----|-----------------------------------|----------------------|---------------|------|------|
@@ -127,15 +137,21 @@ chart_task = await client.task.create(
 | **Learning Curve** | ✅ Simple | ✅ Simple | ✅ Moderate | ✅ Simple | ❌ Complex | ✅ Simple |
 | **Governance** | Open | Linux Foundation | Google-led | Open | Google-led | Open |
 
-## 🤝 Contributing
+## Project Repositories
 
-We welcome contributions from the community! See our [Contributing Guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md).
+- [**ARC Protocol**](https://github.com/arcprotocol/arcprotocol) - Agent communication protocol
+- [**ARC Ledger**](https://github.com/arcprotocol/arcledger) - Agent discovery registry
+- [**ARC Compass**](https://github.com/arcprotocol/arccompass) - Intelligent agent routing
 
-## 📄 License
+## Contributing
 
-ARC Protocol is licensed under the [Apache License 2.0](LICENSE).
+We welcome contributions to all ARC Ecosystem projects! See our [Contributing Guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 
-## 🌐 Community
+## License
+
+All ARC Ecosystem projects are licensed under the [Apache License 2.0](LICENSE).
+
+## Community
 
 - [**Discord**](https://discord.gg/arcprotocol) - Join our community chat
 - [**Twitter**](https://twitter.com/arcprotocol) - Follow for updates
