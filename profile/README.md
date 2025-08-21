@@ -1,6 +1,6 @@
 # ARC Ecosystem - Agent Communication Infrastructure
 
-# <img src="assets/arc_banner.jpeg" alt="ARC Protocol" width="100%">
+# <img src="../assets/arc_banner.jpeg" alt="ARC Protocol" width="100%">
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub stars](https://img.shields.io/github/stars/arcprotocol/arcprotocol.svg?style=social&label=Star)](https://github.com/arcprotocol/arcprotocol)
